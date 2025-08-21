@@ -10,9 +10,16 @@ llm:
 # ===== RESEARCH DEPTH SETTINGS =====
 search:
   max_results: 10                    # Results per search query
-  competitor_analysis_queries: 5     # How many competitor searches
-  trend_analysis_queries: 3         # How many trend searches  
-  news_results: 5                   # How many news articles
+  
+  # 🎯 4-CATEGORY SEARCH SYSTEM
+  # Choose how many searches to perform for each category
+  # Focus areas will select which 4 categories to use
+  category_1_searches: 3             # Searches for focus_areas[0]
+  category_2_searches: 3             # Searches for focus_areas[1] 
+  category_3_searches: 2             # Searches for focus_areas[2]
+  category_4_searches: 2             # Searches for focus_areas[3]
+  
+  news_results: 5                   # How many news articles (separate from categories)
   enable_deep_research: true        # Enable comprehensive research
   
 # ===== CONTENT GENERATION SETTINGS =====
@@ -20,7 +27,7 @@ blog:
   min_word_count: 2000              # Minimum article length
   max_word_count: 4000              # Maximum article length
   style: "informative"             # Options: informative, casual, professional, technical
-  target_audience: "females"  # Options: general, professionals, beginners, experts
+  target_audience: "females"        # Options: general, professionals, beginners, experts
   include_sources: true             # Include source citations
   include_data: true                # Include statistics and data
   include_citations: true           # Add reference links
@@ -37,30 +44,34 @@ agents:
     strategic_positioning: true        # Define unique market position
   research:
     max_sources: 15                # Maximum research sources
-    # 🎯 FOCUS AREAS: Controls what types of searches are performed
-    # Choose focus areas to match your content goals:
+    
+    # 🎯 FOCUS AREAS: Select 4 categories for research
+    # The system will use these 4 categories with the search counts above
     #
-    # BUSINESS/MARKET FOCUS:
+    # AVAILABLE CATEGORIES:
     # - "market_trends": Market analysis, industry outlook, future trends
     # - "competitor_analysis": Top companies, competitive landscape, leading solutions
     # - "industry_news": Latest news, recent developments, industry updates
     # - "data_points": Statistics, market size data, growth metrics, surveys
-    #
-    # PRACTICAL/EDUCATIONAL FOCUS:  
     # - "research": Academic studies, case studies, white papers, research
     # - "tips": How-to guides, best practices, implementation tips
     # - "solutions": Tools, software, platforms, practical solutions
     # - "youtube_research": Video tutorials, reviews, guides from YouTube
     #
     # EXAMPLES:
-    # For business analysis: ["market_trends", "competitor_analysis", "industry_news", "data_points"]
-    # For how-to content: ["research", "tips", "solutions", "youtube_research"]
-    # For mixed approach: ["market_trends", "tips", "solutions", "industry_news"]
+    # Business focus: ["market_trends", "competitor_analysis", "industry_news", "data_points"]
+    # Educational focus: ["research", "tips", "solutions", "youtube_research"]  
+    # Mixed focus: ["market_trends", "tips", "solutions", "industry_news"]
+    #
+    # SEARCH MAPPING:
+    # focus_areas[0] gets category_1_searches (3 searches)
+    # focus_areas[1] gets category_2_searches (3 searches)
+    # focus_areas[2] gets category_3_searches (2 searches) 
+    # focus_areas[3] gets category_4_searches (2 searches)
     #
     focus_areas: ["market_trends", "competitor_analysis", "industry_news", "data_points"]
     timeout_seconds: 300           # Research timeout
-    strategy_guided: true          # Use strategy agent guidance  seo:
-    keyword_research: true             # Perform keyword research
+    strategy_guided: true          # Use strategy agent guidance
     primary_keywords: 3                # Number of primary keywords
     secondary_keywords: 8              # Number of secondary keywords
     search_intent_analysis: true       # Analyze user search intent

@@ -601,9 +601,18 @@ Provide actionable SEO strategy in JSON format:
         search_config = self.config.get('search', {})
         research_config = self.config.get('agents', {}).get('research', {})
         
-        competitor_queries = search_config.get('competitor_analysis_queries', 4)
-        trend_queries = search_config.get('trend_analysis_queries', 2)
-        focus_areas = research_config.get('focus_areas', ['market_trends', 'competitor_analysis'])
+        # Get category search counts
+        cat1_searches = search_config.get('category_1_searches', 3)
+        cat2_searches = search_config.get('category_2_searches', 3) 
+        cat3_searches = search_config.get('category_3_searches', 2)
+        cat4_searches = search_config.get('category_4_searches', 2)
+        
+        focus_areas = research_config.get('focus_areas', ['market_trends', 'competitor_analysis', 'industry_news', 'data_points'])
+        
+        # Ensure we have exactly 4 focus areas
+        if len(focus_areas) < 4:
+            focus_areas.extend(['market_trends', 'competitor_analysis', 'industry_news', 'data_points'][len(focus_areas):])
+        focus_areas = focus_areas[:4]  # Take only first 4
         
         # Define search query templates based on focus areas
         query_templates = {
@@ -657,23 +666,24 @@ Provide actionable SEO strategy in JSON format:
             ]
         }
         
-        # Build dynamic queries based on selected focus areas
+        # Build queries using the 4-category system
         queries = [f"{topic}"]  # Always include the base topic
+        category_searches = [cat1_searches, cat2_searches, cat3_searches, cat4_searches]
         
-        # Add queries from each focus area
-        for focus_area in focus_areas:
+        # Add queries for each of the 4 focus areas
+        for i, focus_area in enumerate(focus_areas):
             if focus_area in query_templates:
                 area_queries = query_templates[focus_area]
-                # Add 1-2 queries from each focus area
-                queries.extend(area_queries[:2])
-        
-        # Limit total queries based on config
-        max_queries = min(len(queries), competitor_queries + trend_queries + 1)  # +1 for base topic
-        queries = queries[:max_queries]
+                num_searches = category_searches[i]
+                # Add the specified number of searches for this category
+                queries.extend(area_queries[:num_searches])
         
         if self.verbose_progress:
-            print(f"🔍 Using focus areas: {', '.join(focus_areas)}")
-            print(f"📊 Generated {len(queries)} search queries based on focus areas")
+            print(f"🎯 4-Category System Active:")
+            for i, focus_area in enumerate(focus_areas):
+                print(f"   Category {i+1}: {focus_area} ({category_searches[i]} searches)")
+            print(f"📊 Total queries generated: {len(queries)}")
+
 
         
         # Execute each search query and categorize results
