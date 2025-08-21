@@ -28,19 +28,39 @@ blog:
   
 # ===== AGENT BEHAVIOR SETTINGS =====
 agents:
+  strategy:
+    analysis_depth: "comprehensive"    # Options: basic, detailed, comprehensive
+    competitive_focus: true            # Analyze competitor positioning
+    target_audience_analysis: true     # Deep audience analysis
+    content_angle_generation: 3        # Number of unique angles to generate
+    market_gap_identification: true    # Find market opportunities
+    strategic_positioning: true        # Define unique market position
   research:
     max_sources: 15                # Maximum research sources
     focus_areas: ["research", "tips", "solutions", "youtube_research"] #  or it can be  focus_areas: ["market_trends", "competitor_analysis", "industry_news", "youtube_research"]
-
     timeout_seconds: 300           # Research timeout
+    strategy_guided: true          # Use strategy agent guidance
+  seo:
+    keyword_research: true             # Perform keyword research
+    primary_keywords: 3                # Number of primary keywords
+    secondary_keywords: 8              # Number of secondary keywords
+    search_intent_analysis: true       # Analyze user search intent
+    competitor_keyword_analysis: true  # Research competitor keywords
+    content_structure_optimization: true # Optimize heading structure
+    meta_tags_generation: true        # Generate meta descriptions and titles
   writer:
     word_count_target: 2500        # Target word count
     unique_angle_required: true     # Require unique perspective
     include_examples: true          # Include real examples
+    seo_guided: true               # Use SEO agent recommendations
+    strategy_aligned: true         # Follow strategy agent direction
   editor:
     seo_optimization: true          # Enable SEO optimization
     competitive_review: true        # Review competitive positioning
     readability_check: true        # Check readability
+    keyword_density_check: true    # Verify keyword optimization
+    meta_description_generation: true # Generate meta descriptions
+    final_strategy_alignment: true # Ensure final content matches strategy
 
 # ===== MONITORING & OUTPUT SETTINGS =====
 monitoring:

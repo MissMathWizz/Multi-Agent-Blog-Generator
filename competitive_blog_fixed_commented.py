@@ -198,6 +198,256 @@ class CompetitiveBlogFixed:
         return None
     
     # ========================================================================
+    # STRATEGY AGENT - Analyzes topic and creates content strategy
+    # ========================================================================
+    def strategy_analysis(self, topic: str) -> Dict[str, Any]:
+        """
+        Strategy Agent: Analyzes the topic and creates a comprehensive content strategy.
+        
+        This agent determines:
+        1. Target audience positioning
+        2. Competitive landscape analysis
+        3. Unique content angles
+        4. Market gaps and opportunities
+        5. Strategic positioning approach
+        
+        Args:
+            topic: The blog topic to analyze
+            
+        Returns:
+            Dictionary containing strategic insights and recommendations
+        """
+        print("🎯 Strategy Agent: Analyzing topic and market positioning...")
+        
+        # Get strategy configuration
+        strategy_config = self.config.get('agents', {}).get('strategy', {})
+        analysis_depth = strategy_config.get('analysis_depth', 'comprehensive')
+        angle_count = strategy_config.get('content_angle_generation', 3)
+        
+        strategy_prompt = f"""As a Strategic Content Analyst, provide a {analysis_depth} analysis for the topic: "{topic}"
+
+STRATEGIC ANALYSIS REQUIRED:
+
+1. TARGET AUDIENCE ANALYSIS:
+   - Primary audience demographics and psychographics
+   - Pain points and challenges
+   - Content consumption preferences
+   - Decision-making factors
+
+2. COMPETITIVE LANDSCAPE:
+   - Key competitors in this space
+   - Content gaps in existing materials
+   - Competitive advantages to leverage
+   - Market positioning opportunities
+
+3. UNIQUE CONTENT ANGLES ({angle_count} angles):
+   - Generate {angle_count} distinct, compelling angles to approach this topic
+   - Each angle should differentiate from typical content
+   - Focus on untapped perspectives or emerging trends
+
+4. MARKET OPPORTUNITIES:
+   - Underserved audience segments
+   - Trending subtopics or related areas
+   - Seasonal or timely angles
+   - Cross-industry applications
+
+5. STRATEGIC POSITIONING:
+   - How to position this content uniquely
+   - Key messages to emphasize
+   - Tone and style recommendations
+   - Call-to-action strategies
+
+Provide specific, actionable insights in JSON format:
+{{
+    "target_audience": {{"primary": "...", "pain_points": ["...", "..."], "preferences": "..."}},
+    "competitive_landscape": {{"gaps": ["...", "..."], "opportunities": ["...", "..."]}},
+    "content_angles": ["angle1", "angle2", "angle3"],
+    "market_opportunities": ["opportunity1", "opportunity2"],
+    "strategic_positioning": {{"unique_value": "...", "key_messages": ["...", "..."], "tone": "..."}}
+}}"""
+
+        if self.verbose_progress:
+            print(f"🔍 Analyzing market positioning for: {topic}")
+        
+        strategy_response = self.safe_llm_call(strategy_prompt)
+        
+        if strategy_response:
+            try:
+                # Try to extract JSON from the response
+                import json
+                import re
+                
+                # Find JSON in the response
+                json_match = re.search(r'\{.*\}', strategy_response, re.DOTALL)
+                if json_match:
+                    strategy_data = json.loads(json_match.group())
+                else:
+                    # Fallback: create structured data from text response
+                    strategy_data = {
+                        "target_audience": {"primary": "professionals", "pain_points": ["information gaps"], "preferences": "detailed analysis"},
+                        "competitive_landscape": {"gaps": ["unique perspective"], "opportunities": ["detailed insights"]},
+                        "content_angles": [f"Comprehensive guide to {topic}", f"Latest trends in {topic}", f"Practical applications of {topic}"],
+                        "market_opportunities": ["emerging trends", "practical applications"],
+                        "strategic_positioning": {"unique_value": f"Expert insights on {topic}", "key_messages": ["actionable advice"], "tone": "professional"}
+                    }
+                
+                if self.show_research_summary:
+                    print(f"✅ Strategy completed: {len(strategy_data.get('content_angles', []))} unique angles identified")
+                
+                return strategy_data
+                
+            except json.JSONDecodeError:
+                print("⚠️ Strategy analysis received, but JSON parsing failed. Using structured fallback.")
+                return {
+                    "target_audience": {"primary": "professionals", "pain_points": ["knowledge gaps"], "preferences": "comprehensive content"},
+                    "content_angles": [f"Complete guide to {topic}", f"Advanced strategies for {topic}", f"Future of {topic}"],
+                    "strategic_positioning": {"unique_value": f"Expert perspective on {topic}", "tone": "authoritative"}
+                }
+        else:
+            print("❌ Strategy analysis failed, using basic strategy")
+            return {
+                "target_audience": {"primary": "general audience"},
+                "content_angles": [f"Understanding {topic}"],
+                "strategic_positioning": {"tone": "informative"}
+            }
+
+    # ========================================================================
+    # SEO AGENT - Keyword research and optimization strategy
+    # ========================================================================
+    def seo_analysis(self, topic: str, strategy_data: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        SEO Agent: Performs keyword research and creates SEO optimization strategy.
+        
+        This agent determines:
+        1. Primary and secondary keywords
+        2. Search intent analysis
+        3. Content structure optimization
+        4. Competitor keyword analysis
+        5. Meta tags and descriptions
+        
+        Args:
+            topic: The blog topic
+            strategy_data: Strategic insights from Strategy Agent
+            
+        Returns:
+            Dictionary containing SEO recommendations and keyword data
+        """
+        print("🔍 SEO Agent: Conducting keyword research and optimization analysis...")
+        
+        # Get SEO configuration
+        seo_config = self.config.get('agents', {}).get('seo', {})
+        primary_keywords = seo_config.get('primary_keywords', 3)
+        secondary_keywords = seo_config.get('secondary_keywords', 8)
+        
+        # Extract strategic context
+        target_audience = strategy_data.get('target_audience', {}).get('primary', 'general audience')
+        content_angles = strategy_data.get('content_angles', [topic])
+        
+        seo_prompt = f"""As an SEO Specialist, conduct comprehensive keyword research and optimization strategy for: "{topic}"
+
+STRATEGIC CONTEXT:
+- Target Audience: {target_audience}
+- Content Angles: {', '.join(content_angles[:3])}
+
+SEO ANALYSIS REQUIRED:
+
+1. PRIMARY KEYWORDS ({primary_keywords} keywords):
+   - High-volume, relevant keywords for "{topic}"
+   - Consider search intent and competition
+   - Focus on keywords the target audience would use
+
+2. SECONDARY KEYWORDS ({secondary_keywords} keywords):
+   - Long-tail variations and related terms
+   - LSI (Latent Semantic Indexing) keywords
+   - Question-based keywords people search for
+
+3. SEARCH INTENT ANALYSIS:
+   - What users are looking for when searching this topic
+   - Informational vs commercial vs navigational intent
+   - Content format preferences (how-to, lists, guides, etc.)
+
+4. CONTENT STRUCTURE:
+   - Recommended H1, H2, H3 structure for SEO
+   - Key sections to include
+   - Internal linking opportunities
+
+5. COMPETITOR ANALYSIS:
+   - What keywords competitors are likely targeting
+   - Content gaps to exploit
+   - Unique positioning opportunities
+
+6. META OPTIMIZATION:
+   - SEO-optimized title suggestions (50-60 characters)
+   - Meta description suggestions (150-160 characters)
+   - Featured snippet optimization tips
+
+Provide actionable SEO strategy in JSON format:
+{{
+    "primary_keywords": ["keyword1", "keyword2", "keyword3"],
+    "secondary_keywords": ["long-tail1", "long-tail2", "..."],
+    "search_intent": "informational/commercial/navigational",
+    "content_structure": {{"h1": "...", "h2_sections": ["...", "...", "..."]}},
+    "meta_optimization": {{"title": "...", "description": "...", "focus_keyword": "..."}},
+    "seo_recommendations": ["tip1", "tip2", "tip3"]
+}}"""
+
+        if self.verbose_progress:
+            print(f"🔍 Researching keywords and SEO strategy for: {topic}")
+        
+        seo_response = self.safe_llm_call(seo_prompt)
+        
+        if seo_response:
+            try:
+                # Try to extract JSON from the response
+                import json
+                import re
+                
+                # Find JSON in the response
+                json_match = re.search(r'\{.*\}', seo_response, re.DOTALL)
+                if json_match:
+                    seo_data = json.loads(json_match.group())
+                else:
+                    # Fallback: create structured SEO data
+                    seo_data = {
+                        "primary_keywords": [topic, f"{topic} guide", f"best {topic}"],
+                        "secondary_keywords": [f"how to {topic}", f"{topic} tips", f"{topic} strategies", f"{topic} benefits"],
+                        "search_intent": "informational",
+                        "content_structure": {
+                            "h1": f"Complete Guide to {topic}",
+                            "h2_sections": ["Introduction", "Key Benefits", "Best Practices", "Common Challenges", "Conclusion"]
+                        },
+                        "meta_optimization": {
+                            "title": f"{topic}: Complete Guide for {target_audience}",
+                            "description": f"Discover everything about {topic}. Expert insights, practical tips, and actionable strategies.",
+                            "focus_keyword": topic
+                        },
+                        "seo_recommendations": ["Use keywords naturally", "Include internal links", "Optimize for featured snippets"]
+                    }
+                
+                if self.show_research_summary:
+                    primary_count = len(seo_data.get('primary_keywords', []))
+                    secondary_count = len(seo_data.get('secondary_keywords', []))
+                    print(f"✅ SEO analysis completed: {primary_count} primary + {secondary_count} secondary keywords")
+                
+                return seo_data
+                
+            except json.JSONDecodeError:
+                print("⚠️ SEO analysis received, but JSON parsing failed. Using structured fallback.")
+                return {
+                    "primary_keywords": [topic, f"{topic} guide"],
+                    "secondary_keywords": [f"how to {topic}", f"{topic} tips"],
+                    "search_intent": "informational",
+                    "meta_optimization": {"title": f"Guide to {topic}", "focus_keyword": topic}
+                }
+        else:
+            print("❌ SEO analysis failed, using basic SEO strategy")
+            return {
+                "primary_keywords": [topic],
+                "secondary_keywords": [f"{topic} guide"],
+                "search_intent": "informational"
+            }
+
+    # ========================================================================
     # WEB SEARCH FUNCTIONALITY
     # ========================================================================
     def search_web(self, query: str, num_results: int = None) -> List[Dict]:
@@ -445,13 +695,14 @@ class CompetitiveBlogFixed:
     # ========================================================================
     def generate_competitive_blog(self, topic: str) -> Optional[str]:
         """
-        Main pipeline for generating competitive blog content.
+        Enhanced pipeline for generating competitive blog content.
         
-        This implements a multi-agent approach:
-        1. Research Agent: Gathers competitive intelligence
-        2. Analysis Agent: Synthesizes insights and finds opportunities
-        3. Writer Agent: Creates comprehensive blog content
-        4. Editor Agent: Polishes and optimizes the final output
+        This implements a 5-agent approach:
+        1. Strategy Agent: Analyzes topic and creates content strategy
+        2. Research Agent: Gathers competitive intelligence (strategy-guided)
+        3. SEO Agent: Keyword research and optimization strategy
+        4. Writer Agent: Creates comprehensive blog content (strategy + SEO guided)
+        5. Editor Agent: Polishes and optimizes the final output
         
         Args:
             topic: The blog topic to write about
@@ -460,16 +711,33 @@ class CompetitiveBlogFixed:
             Complete blog post as string, or None if generation failed
         """
         
-        print(f"🚀 Starting blog generation: {topic}")
+        print(f"🚀 Starting enhanced 5-agent blog generation: {topic}")
+        print("=" * 70)
         
         # ====================================================================
-        # STEP 1: RESEARCH AGENT - Gather competitive intelligence
+        # STEP 1: STRATEGY AGENT - Analyze topic and create content strategy
+        # ====================================================================
+        strategy_data = self.strategy_analysis(topic)
+        if not strategy_data:
+            print("❌ Strategy analysis failed")
+            return None
+        
+        # ====================================================================
+        # STEP 2: RESEARCH AGENT - Gather competitive intelligence (strategy-guided)
         # ====================================================================
         research_data = self.conduct_research(topic)
         research_summary = self.format_research(research_data)
         
         # ====================================================================
-        # STEP 2: ANALYSIS AGENT - Synthesize insights
+        # STEP 3: SEO AGENT - Keyword research and optimization strategy
+        # ====================================================================
+        seo_data = self.seo_analysis(topic, strategy_data)
+        if not seo_data:
+            print("❌ SEO analysis failed")
+            return None
+        
+        # ====================================================================
+        # STEP 4: ANALYSIS AGENT - Synthesize insights (now informed by strategy + SEO)
         # ====================================================================
         print("🔬 Analyzing competitive intelligence...")
         
@@ -490,9 +758,9 @@ Keep analysis concise (max 300 words):"""
             return None
         
         # ====================================================================
-        # STEP 3: WRITER AGENT - Create main content
+        # STEP 5: WRITER AGENT - Create main content (strategy + SEO guided)
         # ====================================================================
-        print("✍️ Writing competitive blog post...")
+        print("✍️ Writing SEO-optimized competitive blog post...")
         
         # Get blog configuration settings
         blog_config = self.config.get('blog', {})
@@ -502,8 +770,27 @@ Keep analysis concise (max 300 words):"""
         include_sources = blog_config.get('include_sources', True)
         include_data = blog_config.get('include_data', True)
         
-        # Create comprehensive prompt using config settings
+        # Extract strategic and SEO guidance
+        strategic_angles = strategy_data.get('content_angles', [f"Comprehensive guide to {topic}"])
+        primary_keywords = seo_data.get('primary_keywords', [topic])
+        secondary_keywords = seo_data.get('secondary_keywords', [])
+        content_structure = seo_data.get('content_structure', {})
+        seo_title = seo_data.get('meta_optimization', {}).get('title', f"Complete Guide to {topic}")
+        
+        # Create comprehensive prompt using strategy, SEO, and config settings
         blog_prompt = f"""Write a {style} blog post about "{topic}" ({min_words}+ words) for {audience}.
+
+STRATEGIC DIRECTION:
+- Primary Content Angle: {strategic_angles[0] if strategic_angles else f"Complete guide to {topic}"}
+- Target Audience: {strategy_data.get('target_audience', {}).get('primary', audience)}
+- Unique Positioning: {strategy_data.get('strategic_positioning', {}).get('unique_value', 'Expert insights')}
+
+SEO OPTIMIZATION REQUIREMENTS:
+- Title: {seo_title}
+- Primary Keywords: {', '.join(primary_keywords[:3])}
+- Secondary Keywords: {', '.join(secondary_keywords[:5])}
+- Content Structure: {content_structure.get('h2_sections', ['Introduction', 'Main Content', 'Conclusion'])}
+- Search Intent: {seo_data.get('search_intent', 'informational')}
 
 COMPETITIVE ANALYSIS:
 {analysis}
@@ -511,17 +798,20 @@ COMPETITIVE ANALYSIS:
 RESEARCH DATA:
 {research_summary[:1000]}...
 
-Requirements:
+CONTENT REQUIREMENTS:
 - {style.title()} tone, data-driven content
 - Target audience: {audience}
 - Include latest trends and statistics
-- Provide unique insights
-- Use clear headings and structure
+- Provide unique insights based on strategic angles
+- Use SEO-optimized headings (H1, H2, H3)
+- Naturally incorporate primary and secondary keywords
 - Include actionable advice
 {'- Include source citations' if include_sources else ''}
 {'- Include data points and statistics' if include_data else ''}
+- Structure according to SEO recommendations
+- Write for {seo_data.get('search_intent', 'informational')} search intent
 
-Write the complete blog post:"""
+Write the complete SEO-optimized blog post:"""
         
         # Generate main blog content
         blog_content = self.safe_llm_call(blog_prompt)
@@ -530,22 +820,44 @@ Write the complete blog post:"""
             return None
         
         # ====================================================================
-        # STEP 4: EDITOR AGENT - Polish and optimize
+        # STEP 6: EDITOR AGENT - Polish, optimize, and verify alignment
         # ====================================================================
-        print("📝 Final optimization...")
+        print("📝 Final editing, SEO optimization, and strategy alignment...")
         
-        # Create prompt for editing and optimization
-        polish_prompt = f"""Optimize this blog post for SEO and readability:
+        # Get editor configuration
+        editor_config = self.config.get('agents', {}).get('editor', {})
+        
+        # Create comprehensive prompt for editing and optimization
+        polish_prompt = f"""Polish and optimize this blog post about "{topic}":
 
-{blog_content[:2000]}...
+{blog_content}
 
-Add:
-- Engaging title
-- Clear structure
-- SEO-friendly headings
-- Strong conclusion
+STRATEGY ALIGNMENT CHECK:
+- Primary Content Angle: {strategic_angles[0] if strategic_angles else f"Guide to {topic}"}
+- Target Audience: {strategy_data.get('target_audience', {}).get('primary', audience)}
+- Strategic Positioning: {strategy_data.get('strategic_positioning', {}).get('unique_value', 'Expert insights')}
 
-Return the polished version:"""
+SEO OPTIMIZATION VERIFICATION:
+- Title optimization: {seo_title}
+- Primary keywords: {', '.join(primary_keywords[:3])}
+- Secondary keywords: {', '.join(secondary_keywords[:5])}
+- Content structure: {content_structure.get('h2_sections', ['Well-structured headings'])}
+- Meta description needed: {seo_data.get('meta_optimization', {}).get('description', f'Complete guide to {topic}')}
+
+EDITING REQUIREMENTS:
+- Improve readability and flow
+- Ensure natural keyword integration (avoid keyword stuffing)
+- Verify strategic angle is maintained throughout
+- Add compelling introduction and conclusion
+- Enhance competitive positioning based on analysis
+- Check data accuracy and source credibility
+- Optimize headings for SEO (H1, H2, H3 structure)
+- Ensure content matches search intent: {seo_data.get('search_intent', 'informational')}
+- Final quality and consistency check
+{'- Verify keyword density is appropriate' if editor_config.get('keyword_density_check') else ''}
+{'- Add meta description at the end' if editor_config.get('meta_description_generation') else ''}
+
+Return the final polished, SEO-optimized, and strategically-aligned blog post:"""
         
         # Get polished version
         final_content = self.safe_llm_call(polish_prompt)
@@ -553,7 +865,8 @@ Return the polished version:"""
             print("⚠️ Polish failed, using original content")
             final_content = blog_content  # Fallback to unpolished version
         
-        print("✅ Blog generation complete!")
+        print("✅ Enhanced 5-agent blog generation complete!")
+        print(f"📊 Generated: Strategy → Research → SEO → Writing → Editing")
         return final_content
     
     # ========================================================================
