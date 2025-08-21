@@ -616,8 +616,6 @@ For technical issues or questions:
 1. Check the troubleshooting section above
 2. Verify API key configuration
 3. Ensure virtual environment is properly activated
-4. Test with the simple generator first (`generate.py`)
-
 ---
 
 **Note**: This project demonstrates a complete competitive blog generation system using modern AI and web search APIs. The implementation includes comprehensive error handling, rate limiting, and professional documentation suitable for production use.
