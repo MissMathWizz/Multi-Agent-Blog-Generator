@@ -3,7 +3,7 @@
 
 # ===== AI MODEL SETTINGS =====
 llm:
-  model: "llama-3.1-8b-instant"  # AI model to use
+  model: "llama-3.3-70b-versatile"  # AI model to use
   temperature: 0.6               # Creativity (0.0=factual, 1.0=creative)
   max_tokens: 2000              # Response length limit
 
@@ -37,10 +37,29 @@ agents:
     strategic_positioning: true        # Define unique market position
   research:
     max_sources: 15                # Maximum research sources
-    focus_areas: ["research", "tips", "solutions", "youtube_research"] #  or it can be  focus_areas: ["market_trends", "competitor_analysis", "industry_news", "youtube_research"]
+    # 🎯 FOCUS AREAS: Controls what types of searches are performed
+    # Choose focus areas to match your content goals:
+    #
+    # BUSINESS/MARKET FOCUS:
+    # - "market_trends": Market analysis, industry outlook, future trends
+    # - "competitor_analysis": Top companies, competitive landscape, leading solutions
+    # - "industry_news": Latest news, recent developments, industry updates
+    # - "data_points": Statistics, market size data, growth metrics, surveys
+    #
+    # PRACTICAL/EDUCATIONAL FOCUS:  
+    # - "research": Academic studies, case studies, white papers, research
+    # - "tips": How-to guides, best practices, implementation tips
+    # - "solutions": Tools, software, platforms, practical solutions
+    # - "youtube_research": Video tutorials, reviews, guides from YouTube
+    #
+    # EXAMPLES:
+    # For business analysis: ["market_trends", "competitor_analysis", "industry_news", "data_points"]
+    # For how-to content: ["research", "tips", "solutions", "youtube_research"]
+    # For mixed approach: ["market_trends", "tips", "solutions", "industry_news"]
+    #
+    focus_areas: ["market_trends", "competitor_analysis", "industry_news", "data_points"]
     timeout_seconds: 300           # Research timeout
-    strategy_guided: true          # Use strategy agent guidance
-  seo:
+    strategy_guided: true          # Use strategy agent guidance  seo:
     keyword_research: true             # Perform keyword research
     primary_keywords: 3                # Number of primary keywords
     secondary_keywords: 8              # Number of secondary keywords

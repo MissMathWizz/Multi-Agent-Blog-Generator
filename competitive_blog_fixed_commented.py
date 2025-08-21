@@ -597,24 +597,84 @@ Provide actionable SEO strategy in JSON format:
             'data': []         # Statistics, numbers, and data points
         }
         
-        # Get search configuration
+        # Get search configuration and focus areas
         search_config = self.config.get('search', {})
+        research_config = self.config.get('agents', {}).get('research', {})
+        
         competitor_queries = search_config.get('competitor_analysis_queries', 4)
         trend_queries = search_config.get('trend_analysis_queries', 2)
+        focus_areas = research_config.get('focus_areas', ['market_trends', 'competitor_analysis'])
         
-        # Define focused search queries using config settings
-        # Each query targets specific types of information
-        queries = [
-            f"{topic}",
-            f"{topic} trends {datetime.now().year}",        # Current trends
-            f"{topic} market analysis",    # Market data
-            f"best {topic} solutions",     # Competitive landscape
-            f"{topic} statistics data"     # Hard data and numbers
-        ]
+        # Define search query templates based on focus areas
+        query_templates = {
+            'market_trends': [
+                f"{topic} trends {datetime.now().year}",
+                f"{topic} market analysis {datetime.now().year}",
+                f"future of {topic}",
+                f"{topic} industry outlook"
+            ],
+            'competitor_analysis': [
+                f"best {topic} companies",
+                f"top {topic} providers",
+                f"{topic} competitive landscape",
+                f"leading {topic} solutions"
+            ],
+            'industry_news': [
+                f"{topic} latest news",
+                f"{topic} recent developments",
+                f"{topic} industry updates",
+                f"new {topic} technologies"
+            ],
+            'research': [
+                f"{topic} research studies",
+                f"{topic} case studies",
+                f"{topic} academic research",
+                f"{topic} white papers"
+            ],
+            'tips': [
+                f"how to {topic}",
+                f"{topic} best practices",
+                f"{topic} tips and tricks",
+                f"{topic} implementation guide"
+            ],
+            'solutions': [
+                f"{topic} solutions",
+                f"{topic} tools and software",
+                f"{topic} platforms",
+                f"best {topic} tools"
+            ],
+            'youtube_research': [
+                f"{topic} tutorials site:youtube.com",
+                f"{topic} reviews site:youtube.com",
+                f"how to {topic} site:youtube.com",
+                f"{topic} guide site:youtube.com"
+            ],
+            'data_points': [
+                f"{topic} statistics {datetime.now().year}",
+                f"{topic} market size data",
+                f"{topic} growth statistics",
+                f"{topic} survey results"
+            ]
+        }
         
-        # Limit queries based on config (take first N queries)
-        max_queries = min(len(queries), competitor_queries + trend_queries)
+        # Build dynamic queries based on selected focus areas
+        queries = [f"{topic}"]  # Always include the base topic
+        
+        # Add queries from each focus area
+        for focus_area in focus_areas:
+            if focus_area in query_templates:
+                area_queries = query_templates[focus_area]
+                # Add 1-2 queries from each focus area
+                queries.extend(area_queries[:2])
+        
+        # Limit total queries based on config
+        max_queries = min(len(queries), competitor_queries + trend_queries + 1)  # +1 for base topic
         queries = queries[:max_queries]
+        
+        if self.verbose_progress:
+            print(f"🔍 Using focus areas: {', '.join(focus_areas)}")
+            print(f"📊 Generated {len(queries)} search queries based on focus areas")
+
         
         # Execute each search query and categorize results
         for i, query in enumerate(queries):
