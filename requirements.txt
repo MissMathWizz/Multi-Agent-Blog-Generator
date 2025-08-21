@@ -1,0 +1,17 @@
+# Competitive Blog Generator Dependencies
+# Compatible with Python 3.10-3.13
+
+# Core AI Framework
+crewai==0.165.1
+
+# LLM Integration
+langchain-groq
+
+# Utilities
+python-dotenv
+requests
+beautifulsoup4
+PyYAML
+
+# Optional: Enhanced functionality
+# crewai-tools  # May have compatibility issues with Python 3.13.5+

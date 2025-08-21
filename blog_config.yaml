@@ -1,0 +1,62 @@
+# Competitive Blog Generator Configuration
+# 🎛️ USER-FRIENDLY SETTINGS - Non-technical users can adjust all parameters
+
+# ===== AI MODEL SETTINGS =====
+llm:
+  model: "llama-3.1-8b-instant"  # AI model to use
+  temperature: 0.6               # Creativity (0.0=factual, 1.0=creative)
+  max_tokens: 2000              # Response length limit
+
+# ===== RESEARCH DEPTH SETTINGS =====
+search:
+  max_results: 10                    # Results per search query
+  competitor_analysis_queries: 5     # How many competitor searches
+  trend_analysis_queries: 3         # How many trend searches  
+  news_results: 5                   # How many news articles
+  enable_deep_research: true        # Enable comprehensive research
+  
+# ===== CONTENT GENERATION SETTINGS =====
+blog:
+  min_word_count: 2000              # Minimum article length
+  max_word_count: 4000              # Maximum article length
+  style: "informative"             # Options: informative, casual, professional, technical
+  target_audience: "females"  # Options: general, professionals, beginners, experts
+  include_sources: true             # Include source citations
+  include_data: true                # Include statistics and data
+  include_citations: true           # Add reference links
+  competitive_positioning: true     # Enable competitive analysis
+  
+# ===== AGENT BEHAVIOR SETTINGS =====
+agents:
+  research:
+    max_sources: 15                # Maximum research sources
+    focus_areas: ["research", "tips", "solutions", "youtube_research"] #  or it can be  focus_areas: ["market_trends", "competitor_analysis", "industry_news", "youtube_research"]
+
+    timeout_seconds: 300           # Research timeout
+  writer:
+    word_count_target: 2500        # Target word count
+    unique_angle_required: true     # Require unique perspective
+    include_examples: true          # Include real examples
+  editor:
+    seo_optimization: true          # Enable SEO optimization
+    competitive_review: true        # Review competitive positioning
+    readability_check: true        # Check readability
+
+# ===== MONITORING & OUTPUT SETTINGS =====
+monitoring:
+  verbose_progress: true            # Show detailed progress
+  log_api_calls: false             # Log API interactions
+  show_research_summary: true      # Display research findings
+  
+output:
+  format: "markdown"               # Output format
+  include_metadata: true           # Add generation metadata
+  save_research_data: true         # Save research to separate file
+  timestamp: true                  # Include timestamp in filename
+  
+# ===== RATE LIMITING SETTINGS =====
+rate_limiting:
+  llm_delay_seconds: 2            # Delay between AI calls
+  search_delay_seconds: 1         # Delay between searches
+  max_retries: 3                  # Maximum retry attempts
+  backoff_multiplier: 2           # Exponential backoff factor

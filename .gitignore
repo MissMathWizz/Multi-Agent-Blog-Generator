@@ -1,0 +1,33 @@
+# Virtual Environment
+blog_generator_env/
+.venv/
+venv/
+
+# Python Cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Environment Variables
+.env
+
+# IDE/Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Output files (optional - remove if you want to commit generated blogs)
+output/
+
+# Temporary files
+*.tmp
+*.temp
