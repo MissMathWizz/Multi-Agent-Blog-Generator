@@ -335,6 +335,71 @@ Market Analysis → Web Search → Keyword Research → Content Creation → Fin
 ❌ LLM call failed (attempt 1): Connection timeout
 ```
 
+
+
+## 🎯 **4-Category Search System**
+
+### **How Focus Areas Work:**
+
+The system uses a simple **4-slot configuration** where each focus area position maps directly to a search count:
+
+```yaml
+# 4 Search Category Slots
+search:
+  category_1_searches: 3    # For focus_areas[0]
+  category_2_searches: 3    # For focus_areas[1] 
+  category_3_searches: 2    # For focus_areas[2]
+  category_4_searches: 2    # For focus_areas[3]
+
+# 4 Focus Area Selections  
+agents:
+  research:
+    focus_areas: ["market_trends", "competitor_analysis", "industry_news", "data_points"]
+                         ↑              ↑                ↑               ↑
+                   Position 0       Position 1      Position 2     Position 3
+                    Gets 3          Gets 3          Gets 2         Gets 2
+                   searches        searches        searches       searches
+```
+
+### **Available Focus Areas:**
+
+| **Category** | **Search Types** | **Use For** |
+|-------------|------------------|-------------|
+| `market_trends` | Market analysis, industry outlook, future trends | Business intelligence |
+| `competitor_analysis` | Top companies, competitive landscape, leading solutions | Competitive research |
+| `industry_news` | Latest news, recent developments, industry updates | Current events |
+| `data_points` | Statistics, market size data, growth metrics, surveys | Data-driven content |
+| `research` | Academic studies, case studies, white papers | Educational content |
+| `tips` | How-to guides, best practices, implementation tips | Tutorial content |
+| `solutions` | Tools, software, platforms, practical solutions | Solution-focused content |
+| `youtube_research` | Video tutorials, reviews, guides from YouTube | Video-based research |
+
+### **Configuration Examples:**
+
+#### **Business Analysis Blog:**
+```yaml
+search:
+  category_1_searches: 4    # Heavy market research
+  category_2_searches: 3    # Good competitor research  
+  category_3_searches: 2    # Some news
+  category_4_searches: 1    # Light data points
+
+focus_areas: ["market_trends", "competitor_analysis", "industry_news", "data_points"]
+```
+**Result**: 4 market trend + 3 competitor + 2 news + 1 data = **10 searches**
+
+#### **How-To Tutorial Blog:**
+```yaml
+search:
+  category_1_searches: 2    # Some research
+  category_2_searches: 4    # Heavy tips focus
+  category_3_searches: 3    # Good solutions coverage
+  category_4_searches: 1    # Light YouTube content
+
+focus_areas: ["research", "tips", "solutions", "youtube_research"]
+```
+**Result**: 2 research + 4 tips + 3 solutions + 1 YouTube = **10 searches**
+
 ## 🎛️ **Non-Technical User Configuration**
 
 ### **Easy YAML Configuration (`blog_config.yaml`):**
@@ -349,7 +414,10 @@ llm:
 # Research Depth  
 search:
   max_results: 10                # Results per query
-  competitor_analysis_queries: 5  # Competitor research depth
+  category_1_searches: 3         # Focus area 1 search count
+  category_2_searches: 3         # Focus area 2 search count
+  category_3_searches: 2         # Focus area 3 search count
+  category_4_searches: 2         # Focus area 4 search count
   
 # Content Style
 blog:
@@ -422,12 +490,19 @@ output/YYYYMMDD_HHMMSS_Competitive_Topic_Name.md
 
 ### blog_config.yaml Settings:
 ```yaml
-# Competitive intelligence settings
+# 4-Category search system
 search:
   max_results: 10                    # Search results per query
-  competitor_analysis_queries: 5     # Competitor research depth
-  trend_analysis_queries: 3          # Market trend research
+  category_1_searches: 3             # Focus area 1 search count
+  category_2_searches: 3             # Focus area 2 search count  
+  category_3_searches: 2             # Focus area 3 search count
+  category_4_searches: 2             # Focus area 4 search count
   news_results: 5                    # Industry news monitoring
+
+# Focus area selection (4 categories)
+agents:
+  research:
+    focus_areas: ["market_trends", "competitor_analysis", "industry_news", "data_points"]
 
 # Content generation settings  
 blog:

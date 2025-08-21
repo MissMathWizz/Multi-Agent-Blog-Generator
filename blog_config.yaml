@@ -69,7 +69,7 @@ agents:
     # focus_areas[2] gets category_3_searches (2 searches) 
     # focus_areas[3] gets category_4_searches (2 searches)
     #
-    focus_areas: ["market_trends", "competitor_analysis", "industry_news", "data_points"]
+    focus_areas: ["diet", "immune", "natural remedy", "no antibiotics"]
     timeout_seconds: 300           # Research timeout
     strategy_guided: true          # Use strategy agent guidance
     primary_keywords: 3                # Number of primary keywords
