@@ -26,7 +26,7 @@ Market Analysis → Web Search → Keyword Research → Content Creation → Fin
 2. **Research Agent**: Strategy-guided competitive intelligence via Serper API
 3. **SEO Agent**: Keyword research with strategic context
 4. **Writer Agent**: Content creation using strategy + research + SEO data
-5. **Editor Agent**: Multi-dimensional verification (strategy + SEO + quality)
+5. **Editor Agent**: Multi-dimensional verification (grammar + tone + flow)
 
 ### What Makes This Solution Competitive
 
