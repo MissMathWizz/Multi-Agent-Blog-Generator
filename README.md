@@ -192,14 +192,14 @@ Want to see what the system actually generates? Check out these real blog posts 
 
 | **Topic** | **File** | **Features Demonstrated** |
 |-----------|----------|---------------------------|
-| **Bartholin Cyst Prevention** | `20250821_171311_Fixed_how_to_prevent_barthlin_cyst.md` | Strategy + SEO + Natural remedies focus |
-| **Comprehensive Health Guide** | `20250821_161255_Fixed_how_to_prevent_barthlin_cyst_informative.md` | Deep research + Emotional analysis |
-| **SEO-Optimized Content** | `20250821_162434_Fixed_how_to_prevent_barthlin_cyst_added_SEO_Strategy.md` | Enhanced SEO + Lifestyle approach |
-| **Natural Remedies Focus** | `20250821_165816_Fixed_how_to_prevent_barthlin_cyst.md` | Self-care + Life stages analysis |
-| **Medical Authority** | `20250821_142801_Fixed_How_to_prevent_bartholin_cyst.md` | Research-backed + Prevention strategies |
-| **Nutrition Angle** | `20250821_144932_Fixed_diet__bartholin_cyst.md` | Dietary focus + Hormonal balance |
-| **Pain Management** | `20250821_144608_Fixed_How_to_prevent_bartholin_cyst.md` | Conservative treatment + Safety practices |
-| **Basic Generation** | `20250821_135027_How_to_prevent_bartholin_cyst.md` | Standard competitive analysis |
+| **Added dynamic focus area design** | `20250821_171311_Fixed_how_to_prevent_barthlin_cyst.md` | Strategy + SEO + Natural remedies focus |
+| **Changed yaml to informative** | `20250821_161255_Fixed_how_to_prevent_barthlin_cyst_informative.md` | Deep research + Emotional analysis |
+| **Added SEO and Strategy Agents** | `20250821_162434_Fixed_how_to_prevent_barthlin_cyst_added_SEO_Strategy.md` | Enhanced SEO + Lifestyle approach |
+| **V5** | `20250821_165816_Fixed_how_to_prevent_barthlin_cyst.md` | Self-care + Life stages analysis |
+| **V4** | `20250821_142801_Fixed_How_to_prevent_bartholin_cyst.md` | Research-backed + Prevention strategies |
+| **V3** | `20250821_144932_Fixed_diet__bartholin_cyst.md` | Dietary focus + Hormonal balance |
+| **V2** | `20250821_144608_Fixed_How_to_prevent_bartholin_cyst.md` | Conservative treatment + Safety practices |
+| **V1** | `20250821_135027_How_to_prevent_bartholin_cyst.md` | Standard competitive analysis |
 
 ### **🔍 What These Examples Show:**
 
